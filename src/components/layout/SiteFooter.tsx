@@ -3,17 +3,14 @@ import { Link } from 'react-router-dom'
 const socials = [
   {
     label: 'Instagram',
-    handle: 'nvmitszipler',
     href: 'https://www.instagram.com/nvmitszipler',
   },
   {
     label: 'GitHub',
-    handle: 'uffabdullah',
     href: 'https://github.com/uffabdullah',
   },
   {
     label: 'LinkedIn',
-    handle: 'abdullahasgerali',
     href: 'https://www.linkedin.com/in/abdullahasgerali',
   },
 ]
@@ -37,7 +34,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-white/10 px-5 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div>
+        <div className="min-w-0 flex-1">
           <Link to="/" className="font-display text-lg font-semibold text-ink">
             CrowdOfOne
           </Link>
@@ -53,17 +50,17 @@ export function SiteFooter() {
               , by <span className="font-medium">Abdullah Asger Ali</span>
             </span>
           </p>
-          <nav aria-label="Social" className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+          <nav aria-label="Social" className="mt-4 grid gap-4 sm:grid-cols-3">
             {socials.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-muted transition-colors hover:text-accent"
+                className="block max-w-full transition-colors hover:text-accent"
               >
-                {item.label}
-                <span className="font-mono text-xs text-ink/70"> {item.handle}</span>
+                <span className="text-sm text-ink">{item.label}</span>
+                <span className="mt-1 block break-all font-mono text-xs text-muted">{item.href}</span>
               </a>
             ))}
           </nav>

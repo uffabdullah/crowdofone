@@ -37,9 +37,9 @@ export function HowItWorks() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         marker,
-        { left: '12%' },
+        { left: '1.5rem' },
         {
-          left: '84%',
+          left: 'calc(66.666% + 2.833rem)',
           ease: 'none',
           scrollTrigger: {
             trigger: section,
@@ -63,12 +63,13 @@ export function HowItWorks() {
         <ol className="relative mt-14 grid gap-12 md:grid-cols-3 md:gap-8">
           <div
             aria-hidden="true"
-            className="absolute top-6 right-[12%] left-[12%] hidden h-px bg-white/15 md:block"
+            className="absolute top-6 hidden h-px bg-white/35 md:block"
+            style={{ left: '1.5rem', width: 'calc(66.666% + 1.333rem)' }}
           />
           <div
             ref={markerRef}
             aria-hidden="true"
-            className="absolute top-[18px] hidden h-3 w-3 -translate-x-1/2 rounded-full bg-accent shadow-[0_0_16px_#76B900] md:block"
+            className="absolute top-[18px] left-6 hidden h-3 w-3 -translate-x-1/2 rounded-full bg-accent shadow-[0_0_16px_#76B900] md:block"
           />
           {steps.map((step, index) => {
             const Icon = step.icon

@@ -152,14 +152,41 @@ export function PersonaField() {
         : null
 
     const started = performance.now()
+    const pointer = { x: 0, y: 0, tx: 0, ty: 0 }
+    const host = section ?? parent ?? canvas
+    const onPointerMove = (event: PointerEvent) => {
+      const rect = host.getBoundingClientRect()
+      if (rect.width === 0 || rect.height === 0) return
+      const inside =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom
+      if (!inside) {
+        pointer.tx = 0
+        pointer.ty = 0
+        return
+      }
+      pointer.tx = ((event.clientX - rect.left) / rect.width - 0.5) * 2
+      pointer.ty = ((event.clientY - rect.top) / rect.height - 0.5) * 2
+    }
+    if (!reduce) window.addEventListener('pointermove', onPointerMove)
+
     let frame = 0
     const render = () => {
       const elapsed = reduce ? 1.6 : (performance.now() - started) / 1000
       material.uniforms.uTime.value = elapsed
-      points.rotation.y = reduce ? 0.08 : Math.sin(elapsed * 0.12) * 0.08
+      pointer.x += (pointer.tx - pointer.x) * 0.08
+      pointer.y += (pointer.ty - pointer.y) * 0.08
+      const drift = reduce ? 0 : Math.sin(elapsed * 0.12) * 0.05
+      points.rotation.y = drift + pointer.x * 0.18
+      points.rotation.x = pointer.y * 0.08
+      points.position.x = pointer.x * 0.35
+      points.position.y = pointer.y * -0.22
       camera.position.z = cameraZ.current
-      camera.position.y = 0.12 + (reduce ? 0 : Math.sin(elapsed * 0.2) * 0.04)
-      camera.lookAt(0.35, 0, 0)
+      camera.position.x = pointer.x * 0.85
+      camera.position.y = 0.12 + (reduce ? 0 : Math.sin(elapsed * 0.2) * 0.04) - pointer.y * 0.45
+      camera.lookAt(0.35 + pointer.x * 0.2, pointer.y * -0.12, 0)
       if (visible) renderer.render(scene, camera)
       if (!reduce) frame = requestAnimationFrame(render)
     }
@@ -167,6 +194,7 @@ export function PersonaField() {
 
     return () => {
       cancelAnimationFrame(frame)
+      window.removeEventListener('pointermove', onPointerMove)
       trigger?.kill()
       resizeObserver.disconnect()
       intersection.disconnect()
