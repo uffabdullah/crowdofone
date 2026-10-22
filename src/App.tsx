@@ -3,6 +3,7 @@ import { MotionConfig } from 'framer-motion'
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { SiteFooter } from './components/layout/SiteFooter.tsx'
 import { SiteHeader } from './components/layout/SiteHeader.tsx'
+import { RouteLoading } from './components/layout/LoadingScreen.tsx'
 import LandingPage from './pages/LandingPage.tsx'
 import { initSmoothScroll, destroySmoothScroll, scrollToTarget, scrollToTop } from './lib/smooth-scroll.ts'
 
@@ -29,6 +30,7 @@ function Shell() {
   return (
     <>
       <SiteHeader />
+      <RouteLoading />
       <Suspense fallback={<div className="min-h-svh bg-bg" />}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
