@@ -1,5 +1,6 @@
 import { Reveal } from '../ui/Reveal.tsx'
 import { SectionHeading } from '../ui/SectionHeading.tsx'
+import { Tilt } from '../ui/Tilt.tsx'
 
 const cards = [
   {
@@ -28,12 +29,14 @@ export function Problem() {
         </SectionHeading>
         <div className="mt-12 grid gap-4 md:grid-cols-3">
           {cards.map((card, index) => (
-            <Reveal key={card.title} delay={index * 0.08} className="h-full">
-              <article className="flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition duration-300 hover:-translate-y-0.5 hover:border-accent/35">
+            <Reveal key={card.title} delay={index * 0.08} className="h-full [perspective:900px]">
+              <Tilt className="h-full">
+              <article className="flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition-colors duration-300 hover:border-accent/35">
                 <p className="font-mono text-sm text-accent">0{index + 1}</p>
                 <h3 className="mt-5 font-display text-xl font-medium text-ink">{card.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted">{card.body}</p>
               </article>
+              </Tilt>
             </Reveal>
           ))}
         </div>

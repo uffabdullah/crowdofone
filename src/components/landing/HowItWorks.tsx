@@ -49,6 +49,18 @@ export function HowItWorks() {
           },
         },
       )
+      gsap.from('li', {
+        y: 40,
+        opacity: 0,
+        duration: 0.75,
+        stagger: 0.14,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 78%',
+          toggleActions: 'play none none none',
+        },
+      })
     }, section)
 
     return () => ctx.revert()

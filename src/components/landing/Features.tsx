@@ -1,6 +1,7 @@
 import { ChipIcon, ClusterIcon, CrowdIcon, PayIcon } from '../icons.tsx'
 import { Reveal } from '../ui/Reveal.tsx'
 import { SectionHeading } from '../ui/SectionHeading.tsx'
+import { Tilt } from '../ui/Tilt.tsx'
 
 const features = [
   {
@@ -36,14 +37,16 @@ export function Features() {
           {features.map((feature, index) => {
             const Icon = feature.icon
             return (
-              <Reveal key={feature.title} delay={index * 0.06} className="h-full">
-                <article className="h-full rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition duration-300 hover:border-white/20 sm:p-8">
+              <Reveal key={feature.title} delay={index * 0.06} className="h-full [perspective:900px]">
+                <Tilt className="h-full">
+                <article className="h-full rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition-colors duration-300 hover:border-white/20 sm:p-8">
                   <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent/10 text-accent">
                     <Icon />
                   </div>
                   <h3 className="mt-5 font-display text-xl font-medium text-ink">{feature.title}</h3>
                   <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted">{feature.body}</p>
                 </article>
+                </Tilt>
               </Reveal>
             )
           })}

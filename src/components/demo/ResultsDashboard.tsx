@@ -11,6 +11,7 @@ import {
   YAxis,
 } from 'recharts'
 import { formatCount } from '../../content/stats.ts'
+import { Tilt } from '../ui/Tilt.tsx'
 import type { SimulateResult } from '../../lib/types.ts'
 
 const tooltipStyle = {
@@ -209,8 +210,8 @@ export function ResultsDashboard({ result }: { result: SimulateResult }) {
         </p>
         <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {result.reactions.map((persona) => (
+            <Tilt key={persona.name} className="h-full [perspective:900px]">
             <article
-              key={persona.name}
               className="flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.03] p-5"
             >
               <div className="flex items-start justify-between gap-3">
@@ -229,6 +230,7 @@ export function ResultsDashboard({ result }: { result: SimulateResult }) {
                 {persona.reaction}
               </p>
             </article>
+            </Tilt>
           ))}
         </div>
       </section>

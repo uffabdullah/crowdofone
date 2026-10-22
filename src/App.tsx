@@ -1,9 +1,11 @@
 import { lazy, Suspense, useEffect } from 'react'
 import { MotionConfig } from 'framer-motion'
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { CursorGlow } from './components/layout/CursorGlow.tsx'
 import { SiteFooter } from './components/layout/SiteFooter.tsx'
 import { SiteHeader } from './components/layout/SiteHeader.tsx'
 import { RouteLoading } from './components/layout/LoadingScreen.tsx'
+import { ScrollProgress } from './components/layout/ScrollProgress.tsx'
 import LandingPage from './pages/LandingPage.tsx'
 import { initSmoothScroll, destroySmoothScroll, scrollToTarget, scrollToTop } from './lib/smooth-scroll.ts'
 
@@ -29,6 +31,8 @@ function Shell() {
 
   return (
     <>
+      <CursorGlow />
+      <ScrollProgress />
       <SiteHeader />
       <RouteLoading />
       <Suspense fallback={<div className="min-h-svh bg-bg" />}>

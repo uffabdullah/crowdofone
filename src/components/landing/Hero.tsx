@@ -10,16 +10,36 @@ gsap.registerPlugin(ScrollTrigger)
 export function Hero() {
   const heroRef = useRef<HTMLElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const shiftRef = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
     const hero = heroRef.current
     const content = contentRef.current
-    if (!hero || !content) return
+    const shift = shiftRef.current
+    if (!hero || !content || !shift) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const pointer = { x: 0, y: 0, tx: 0, ty: 0 }
+    const onMove = (event: PointerEvent) => {
+      const box = hero.getBoundingClientRect()
+      const inside =
+        event.clientY >= box.top &&
+        event.clientY <= box.bottom &&
+        event.clientX >= box.left &&
+        event.clientX <= box.right
+      pointer.tx = inside ? (event.clientX - box.left) / box.width - 0.5 : 0
+      pointer.ty = inside ? (event.clientY - box.top) / box.height - 0.5 : 0
+    }
+
+    const follow = () => {
+      pointer.x += (pointer.tx - pointer.x) * 0.08
+      pointer.y += (pointer.ty - pointer.y) * 0.08
+      shift.style.transform = `translate3d(${(-pointer.x * 18).toFixed(2)}px, ${(-pointer.y * 12).toFixed(2)}px, 0)`
+    }
 
     const ctx = gsap.context(() => {
       gsap.to(content, {
-        y: -56,
+        y: -72,
         ease: 'none',
         scrollTrigger: {
           trigger: hero,
@@ -28,9 +48,15 @@ export function Hero() {
           scrub: true,
         },
       })
+      gsap.ticker.add(follow)
     }, hero)
 
-    return () => ctx.revert()
+    window.addEventListener('pointermove', onMove)
+    return () => {
+      window.removeEventListener('pointermove', onMove)
+      gsap.ticker.remove(follow)
+      ctx.revert()
+    }
   }, [])
 
   return (
@@ -46,6 +72,7 @@ export function Hero() {
         ref={contentRef}
         className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-center px-5 pt-28 pb-20"
       >
+        <div ref={shiftRef}>
         <p className="max-w-xs font-mono text-xs tracking-[0.14em] text-balance text-accent uppercase sm:max-w-none sm:tracking-[0.18em]">
           For founders, students, and small teams
         </p>
@@ -72,6 +99,7 @@ export function Hero() {
           >
             See how it works
           </button>
+        </div>
         </div>
       </div>
     </section>

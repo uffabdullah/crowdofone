@@ -28,13 +28,13 @@ export function Speed() {
         { scaleX: 0 },
         {
           scaleX: 1,
-          duration: 1.15,
-          ease: 'power2.out',
-          stagger: 0.12,
+          ease: 'none',
+          stagger: 0.05,
           scrollTrigger: {
             trigger: section,
-            start: 'top 70%',
-            toggleActions: 'play none none none',
+            start: 'top 78%',
+            end: 'center 50%',
+            scrub: 0.7,
           },
         },
       )
